@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo "placeholder" > /var/moodledata/placeholder
-git clone -b MOODLE_311_STABLE git://git.moodle.org/moodle.git --depth=1 /var/www/html/
 chown -R www-data:www-data /var/www/html
 chown -R www-data:www-data /var/moodledata
 chmod 777 /var/moodledata

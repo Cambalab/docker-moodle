@@ -1,8 +1,9 @@
 # Docker-Moodle
-# Dockerfile for moodle instance. more dockerish version of https://github.com/sergiogomez/docker-moodle
-# Forked from Jade Auer's docker version. https://github.com/jda/docker-moodle
+# Dockerfile for Moodle development, testing, and upgrading in your localhost.
+# Forked from jhardison's docker version. https://www.github.com/jmhardison/docker-moodle
+
 FROM ubuntu:20.04
-LABEL maintainer="Jonathan Hardison <jmh@jonathanhardison.com>"
+LABEL maintainer="Damian Mantuano <smarbos@gmail.com>"
 
 VOLUME ["/var/moodledata"]
 
