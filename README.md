@@ -1,50 +1,27 @@
-docker-moodle
+docker-moodle-dev
 =============
-[![Docker Release](https://github.com/jmhardison/docker-moodle/actions/workflows/docker-release.yml/badge.svg)](https://github.com/jmhardison/docker-moodle/actions/workflows/docker-release.yml)
-
-Cross published at [github.](https://github.com/jmhardison/docker-moodle/pkgs/container/docker-moodle)
-
-A Dockerfile that installs and runs the latest Moodle stable, with external MySQL Database.
-
-`Note: DB Deployment uses version 5 of MySQL. MySQL:Latest is now v8.`
-
-Tags:
-* latest - 3.11 stable
-* v3.11 - 3.11 stable
-* v3.8 - 3.8 stable
-* v3.7 - 3.7 stable
-* v3.6 - 3.6 stable
-* v3.5 - 3.5 stable
-* v3.4 - 3.4 stable
-* v3.3 - 3.3 stable
-* v3.2 - 3.2 stable
-* v3.1 - 3.1 stable
+A Dockerfile that installs and runs the desired Moodle version, with external MySQL Database.
 
 ## Installation
 
 ```
 git clone https://github.com/jmhardison/docker-moodle
 cd docker-moodle
-docker build -t moodle .
 ```
 
 ## Usage
-
-Test Environment
-
-When running locally or for a test deployment, use of localhost is acceptable.
-
+Copy dump of your current DB (if exists) into **moodle-upgrader/upgrade/** and rename the file **dbDump.sql**
+Copy your moodle-data folder (if exists) into **moodle-files/mood**
 To spawn a new instance of Moodle:
 
 ```
-docker run -d --name DB -p 3306:3306 -e MYSQL_DATABASE=moodle -e MYSQL_ROOT_PASSWORD=moodle -e MYSQL_USER=moodle -e MYSQL_PASSWORD=moodle mysql:5
-docker run -d -P --name moodle --link DB:DB -e MOODLE_URL=http://localhost:8080 -p 8080:80 jhardison/moodle
+docker-compose up -d
 ```
 
 You can visit the following URL in a browser to get started:
 
 ```
-http://localhost:8080 
+http://localhost:8080
 ```
 
 ### Production Deployment
@@ -75,7 +52,7 @@ Once the environment file is filled in you may bring up the service with:
 
 
 ## Caveats
-The following aren't handled, considered, or need work: 
+The following aren't handled, considered, or need work:
 * moodle cronjob (should be called from cron container)
 * log handling (stdout?)
 * email (does it even send?)

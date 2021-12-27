@@ -3,9 +3,12 @@ version: '3'
 services:
     dbapp:
         image: mysql:5
-        restart: always
+        container_name: moodleDB_setName
+        restart: on-failure
         volumes:
             - db-volume:/var/lib/mysql
+            - ./dbDump.sql:/docker-entrypoint-initdb.d/dbDump.sql
+            - ./newDump.sql:/tmp/newDump.sql
         env_file:
             - moodle_variables.env
         networks:
@@ -13,16 +16,22 @@ services:
         deploy:
             replicas: 1
             restart_policy:
-                condition: any
+                condition: on-failure
     moodleapp:
         image: jhardison/moodle:latest
+        container_name: moodleApp_setName
         links:
             - dbapp:DB
-        depends_on: 
+        depends_on:
             - dbapp
-        restart: always
+        restart: on-failure
         volumes:
             - moodleapp-data:/var/moodledata
+            - ./foreground.sh:/etc/apache2/foreground.sh
+            - ./moodle-config.php:/var/www/html/config.php
+            - ./moodle-files/moodle:/var/www/html
+            - ./logs/error.log:/var/log/apache2/error.log
+            - ./logs/access.log:/var/log/apache2/access.log
         ports:
             - 80:80
             - 443:443
@@ -34,9 +43,9 @@ services:
         deploy:
             replicas: 1
             restart_policy:
-                condition: any            
+                condition: on-failure
 
-volumes: 
+volumes:
     db-volume:
     moodleapp-data:
 
